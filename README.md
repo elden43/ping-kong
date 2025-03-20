@@ -55,7 +55,7 @@ This sends GET requests to `https://httpbin.org/anything/{data1}/{data2}`, repla
 - 100ms delay between requests.
 - Simple logging, storing status codes and response times in `output-example-get-2.log`.
 
-After running, the output-example-get-2.log file may contain something like this
+After running, the `output-example-get-2.log` file may contain something like this
 ```text
 "12:30:04.321: https://httpbin.org/anything/a/b": 200, 52ms
 "12:30:04.328: https://httpbin.org/anything/c/d": 200, 49ms
@@ -118,6 +118,23 @@ Average Response Time by Status Code (ms):
 ---
 
 ## How to run Ping-Kong?
+
+### Downloading Ping-Kong
+You can download a pre-built release for **Linux**, **Windows**, or **macOS** from the [GitHub Releases](https://github.com/elden43/ping-kong/releases).  
+Alternatively, you can build it yourself from the source code.
+
+#### **Building from Source**
+If you want to compile Ping-Kong manually, you can either:
+- Use the `build.sh` script in the project root.
+- Run the appropriate `go build` command for your platform.
+  
+Once compiled, you can run the resulting binary from your terminal.
+For convenience, you may move it to a directory in your PATH (e.g., `/usr/local/bin/` on `Linux/macOS`).
+
+For example, if you place it in `/usr/local/bin/pk` (don't forget to make it executable), you can run Ping-Kong like this:
+```shell script
+pk config.yaml
+```
 
 ### Running Ping-Kong with a single YAML file:
 If you want to test using one YAML configuration file, use the following:

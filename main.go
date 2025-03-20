@@ -56,7 +56,6 @@ func loadConfig(configFile string) (*Config, error) {
 	// use absolute path
 	if config.DataFile != "" {
 		if !filepath.IsAbs(config.DataFile) {
-			// Vytvoří absolutní cestu vzhledem k místu, kde je YAML uložen
 			config.DataFile = filepath.Join(filepath.Dir(configFile), config.DataFile)
 		}
 	}
@@ -64,7 +63,6 @@ func loadConfig(configFile string) (*Config, error) {
 	// use absolute path
 	if config.OutputFile != "" {
 		if !filepath.IsAbs(config.OutputFile) {
-			// Nastaví absolutní cestu pro OutputFile relativně k config souboru
 			config.OutputFile = filepath.Join(filepath.Dir(configFile), config.OutputFile)
 		}
 	}
