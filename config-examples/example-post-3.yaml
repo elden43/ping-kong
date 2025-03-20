@@ -1,0 +1,13 @@
+# POST request, form body, using placeholder data values from `data` config field
+url: "https://httpbin.org/post"
+method: "POST"
+postDataFormat: form
+outputFile: "output-example-post-3.log"
+data:
+  - "a b c"
+  - "d e f"
+  - "g h i"
+repeats: 1
+concurrency: 2
+delay: 0
+captureResult: full

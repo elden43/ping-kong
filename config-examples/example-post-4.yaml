@@ -1,0 +1,14 @@
+# POST request, raw body, using placeholder data values from `data` config field
+url: "https://httpbin.org/post"
+method: "POST"
+postDataFormat: raw
+postBody: "test {data1} raw {data2} data {data3} option"
+outputFile: "output-example-post-4.log"
+data:
+  - "a b c"
+  - "d e f"
+  - "g h i"
+repeats: 1
+concurrency: 2
+delay: 0
+captureResult: full

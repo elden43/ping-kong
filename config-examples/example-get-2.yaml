@@ -1,0 +1,13 @@
+# GET request using placeholder data values from `data` config field combined with `dataFile` config field referencing to external data source
+url: "https://httpbin.org/anything/{data1}/{data2}"
+method: "GET"
+outputFile: "output-example-get-2.log"
+data:
+  - "a b"
+  - "c d"
+  - "e f"
+dataFile: "example-get-2.txt"
+repeats: 1
+concurrency: 2
+delay: 0
+captureResult: full

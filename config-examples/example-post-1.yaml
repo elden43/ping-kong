@@ -1,0 +1,14 @@
+# POST request, json body, using placeholder data values from `data` config field
+url: "https://httpbin.org/post"
+method: "POST"
+postDataFormat: json
+postBody: "{\"testId\": 1, \"testValue\": {data1}}"
+outputFile: "output-example-post-1.log"
+data:
+  - "a b"
+  - "c d"
+  - "e f"
+repeats: 1
+concurrency: 2
+delay: 0
+captureResult: full

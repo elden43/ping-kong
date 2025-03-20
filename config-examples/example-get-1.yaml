@@ -1,0 +1,8 @@
+# simple GET request
+url: "https://httpbin.org/get"
+method: "GET"
+outputFile: "output-example-get-1.log"
+repeats: 3
+concurrency: 1
+delay: 0
+captureResult: full
