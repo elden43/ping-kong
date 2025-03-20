@@ -26,7 +26,7 @@ type Config struct {
 	Concurrency    int               `yaml:"concurrency"`
 	Delay          int               `yaml:"delay"`
 	CaptureResult  string            `yaml:"captureResult"`  // "none", "simple", "full"
-	PostDataFormat string            `yaml:"postDataFormat"` // "json", "form", "raw"
+	PostDataFormat string            `yaml:"postDataFormat"` // "json", "form", "raw", "none"
 	PostBody       string            `yaml:"postBody"`
 }
 
@@ -183,6 +183,11 @@ func performRequest(url string, config *Config, dataParts []string, metrics *Tes
 		}
 		body = strings.NewReader(rawBody)
 		contentType = "text/plain"
+
+	case "none":
+		// no content in body, no Content-Type header
+		body = nil
+		contentType = ""
 
 	default:
 		// raw

@@ -1,9 +1,8 @@
 # README for Ping-Kong
 
 ## What is Ping-Kong?
-If you need, for example, to send 500 requests to a specific address in a very short time to see how your web application handles it, or if you want to test a set of your endpoints, this tool has you covered. Simply create a straightforward configuration file, including any necessary data, and let Ping-Kong do the rest.
 
-Ping-Kong is a **powerful tool** (haha, just joking, it's just simple tool to help with some basic testing) for batch and automated HTTP request sending based on a provided configuration. You can use Ping-Kong for:
+Ping-Kong is a powerful tool (okay, maybe not that powerful, but it's a simple tool to help with basic testing) for batch and automated HTTP request testing. You can use Ping-Kong for:
 - Performance testing (load testing) of APIs.
 - Automating testing of HTTP endpoints.
 - Sending massive amounts of data via HTTP methods (e.g., POST or GET).
@@ -11,11 +10,92 @@ Ping-Kong is a **powerful tool** (haha, just joking, it's just simple tool to he
 
 Ping-Kong is highly customizable (eh, kinda) and lets you define different HTTP methods, headers, request bodies, and data for sending requests.
 
+If you need, for example, to send 500 requests to a specific address in a very short time to see how your web application handles it, or if you want to test a set of your endpoints, this tool has you covered. Simply create a straightforward configuration file, including any necessary data, and let Ping-Kong do the rest.
+
+## Quick Configuration Overview
+
+```yaml
+url: "http://example.com/api/{data1}&id={data2}"      # Target URL with optional placeholders
+method: "GET"                                         # HTTP method (GET, POST, PUT, DELETE...)
+headers:                                              # Optional request headers
+  Authorization: "Bearer token123"
+data:                                                 # Inline data rows for placeholders
+  - "value1_1" "value1_2"
+  - "value2_1" "value2_2"  
+dataFile: "data/input.txt"                            # External data source
+outputFile: "logs/results.log"                        # Output log file
+repeats: 5                                            # Number of times to repeat the requests
+concurrency: 10                                       # Number of parallel requests
+delay: 100                                            # Delay between requests in milliseconds
+captureResult: "simple"                               # Response logging level: none | simple | full
+postDataFormat: "json"                                # POST request body format: json | form | raw | none
+postBody: '{"key1": "{data1}", "key2": "{data2}"}'    # Template for POST request body
+```
+
+## Configuration Example
+```yaml
+url: "https://httpbin.org/anything/{data1}/{data2}"
+method: "GET"
+outputFile: "output-example-get-2.log"
+data:
+  - "a b"
+  - "c d"
+  - "e f"
+dataFile: "example-get-2.txt"
+repeats: 10
+concurrency: 10
+delay: 100
+captureResult: simple
+```
+
+This sends GET requests to `https://httpbin.org/anything/{data1}/{data2}`, replacing `{data1}` and `{data2}` with values from the `data` list and `dataFile`.
+
+- 10 repetitions of each data entry.
+- 10 parallel requests at a time.
+- 100ms delay between requests.
+- Simple logging, storing status codes and response times in `output-example-get-2.log`.
+
+After running, the output-example-get-2.log file may contain something like this
+```text
+"12:30:04.321: https://httpbin.org/anything/a/b": 200, 52ms
+"12:30:04.328: https://httpbin.org/anything/c/d": 200, 49ms
+"12:30:04.335: https://httpbin.org/anything/e/f": 200, 51ms
+--- some others ---
+"12:30:04.450: https://httpbin.org/anything/a/b": 200, 48ms
+"12:30:04.460: https://httpbin.org/anything/c/d": 200, 50ms
+"12:30:04.472: https://httpbin.org/anything/e/f": 503, 53ms
+
+--- Test Results Summary ---
+URL Pattern: https://httpbin.org/anything/{data1}/{data2}
+Method: GET
+Repeats: 10
+Concurrency: 10
+Delay: 100ms
+
+Test Start: 2025-03-20 12:30:04
+Test End: 2025-03-20 12:30:14
+Test Duration: 10.00 seconds
+Total Requests: 100
+
+Response Status Codes:
+- 200: 98
+- 503: 2
+
+Response Time (ms):
+- Average: 50ms
+- Shortest: 48ms
+- Longest: 53ms
+
+Average Response Time by Status Code (ms):
+- 200: 50ms
+- 503: 106ms
+```
+
 🧨If you find something you don't like or encounter any bugs, please let me know. This tool was quickly put together to address a specific need, so there's a good chance that some bugs might appear.🧨
 
 ---
 
-## What does Ping-Kong do?
+## Key Features
 
 1. **Supported HTTP Methods**:
     - `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, and any other valid HTTP methods supported by the server.
@@ -33,7 +113,7 @@ Ping-Kong is highly customizable (eh, kinda) and lets you define different HTTP 
     - JSON (`application/json`), form-data (`application/x-www-form-urlencoded`), or plain text (`text/plain`).
 
 6. **Log Results with Details**:
-    - Logs are written to files specified in the YAML configuration. Details include status codes, response times, server responses, and more.
+    - Logs are saved to files specified in the YAML configuration, including status codes, response times, server responses, and more.
 
 ---
 
@@ -144,8 +224,8 @@ outputFile: "logs/output.log"
 ```yaml
 repeats: 5
 ```
-- **Note**: If you have, for example, 10 rows of data and `repeats: 3`, Ping-Kong will send 30 requests in total.
-
+- **Note**: if you have 10 rows of data and set `repeats: 3`, Ping-Kong will send a total of 30 requests.
+- 
 ---
 
 ### `concurrency`
@@ -188,6 +268,7 @@ captureResult: "simple"
     - `json`: Sends a JSON-formatted body.
     - `form`: Sends form-url-encoded data.
     - `raw`: Sends raw text/plain data.
+    - `none`: Sends no body
 - **Example**:
 ```yaml
 postDataFormat: "json"
@@ -208,7 +289,7 @@ Feel free to explore these examples to get started quickly.
 ---
 
 ### Open Source License
-Feel free to use, modify, and share this project for personal or commercial purposes. Just make sure to mention the original source in your work, because that’s my only shot at immortality after my Twilight fan fiction didn’t make it. 🌟
+Feel free to use, modify, and share this project for personal or commercial purposes. Just make sure to credit the original source – it’s my only shot at immortality since my Twilight fan fiction never took off. 🌟
 
 Here’s a plain English summary of the license:
 1. You’re free to use this code for **any purpose**.
